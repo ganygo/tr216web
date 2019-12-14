@@ -1,0 +1,59 @@
+<% 
+    if(parentMenu){
+        title=translation[parentMenu.text] || parentMenu.text;
+        hideLeftTopLogo=false;
+    } else {
+        title=translation['HOME'] || 'Ana Sayfa';
+        hideLeftTopLogo=true;
+    }
+    
+    //
+%>
+<% layout('../_common/layout-general') %>
+
+<% if(parentMenu) { %>
+<div class="row justify-content-md-center mt-2">
+    <div class="col-md-12 module-title text-center">
+        <i class="<%=parentMenu.icon%>"></i> <%=title%>
+    </div>
+
+</div>
+<div class="row justify-content-md-center">
+    <div class="col-sm-9">
+        <div class="hovicon effect-1 sub-a">
+            <div class="input-group">
+                <input type="search" name="inputSearch" id="inputSearch" class="form-control" value="" placeholder="..." aria-describedby="button-search">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="button-search"><i class="fa fa-search"></i> ara</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<% } else { %>
+<div class="row justify-content-md-center mt-2 mb-4">
+    <div class="col-md-6 text-center">
+        <img src="/images/tr216-square-200x200.png" style="max-height: 250px;max-width: 100%;" alt="tr216 logo">
+    </div>
+</div>
+    
+<% } %>
+<% 
+    var satirSayisi=Math.floor(menu.length/4)+1;
+%>
+
+<% for(var row=0;row<satirSayisi;row++){ %>
+<div class="row justify-content-md-center">
+    <% for(var col=0;col<4;col++) { %>
+        <% 
+            var index=(row*4)+col;
+            if(index>=menu.length) break;
+        %>
+    <div class="col-md-2 main-btn-col2">
+        <div class="main-button pt-2">
+            <a href="<%=menu[index].path%>?sid=<%=sid%>" target="_self"><center><i class="<%=menu[index].icon%>"></i><br><%=(translation[menu[index].text] || menu[index].text)%></center></a>
+        </div>
+    </div>
+    <% } %>
+</div>
+<% } %>

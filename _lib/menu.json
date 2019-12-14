@@ -1,0 +1,26 @@
+[
+	{ "text":"JOB_AND_EMPLOYEE",	"path":"/hr", 				"icon":"fas fa-people-carry", 			"visible":true, "nodes":[]},
+	{ "text":"REALESTATE",			"path":"/realestate", 		"icon":"fas fa-city", 					"visible":true, "nodes":[
+		{ "text":"HOUSE",				"path":"/house", 			"icon":"fas fa-home", 					"visible":true, "nodes":[
+			{ "text":"FLOOR",				"path":"/floor", 			"icon":"fas fa-home", 					"visible":true, "nodes":[]},
+			{ "text":"VILLA",				"path":"/villa", 		"icon":"fas fa-store-alt", 				"visible":true, "nodes":[]},
+			{ "text":"MUSTAKIL",			"path":"/mustakil", 			"icon":"fas fa-align-justify", 			"visible":true, "nodes":[]},
+			{ "text":"ROOM",			"path":"/room", 		"icon":"fas fa-building", 				"visible":true, "nodes":[]}
+		]},
+		{ "text":"WORKPLACE",			"path":"/workplace", 		"icon":"fas fa-store-alt", 				"visible":true, "nodes":[]},
+		{ "text":"FIELD",				"path":"/field", 			"icon":"fas fa-align-justify", 			"visible":true, "nodes":[]},
+		{ "text":"BUILDING",			"path":"/building", 		"icon":"fas fa-building", 				"visible":true, "nodes":[]}
+
+	]},
+	{ "text":"VEHICLE",				"path":"/vehicle", 			"icon":"fas fa-car-side", 				"visible":true, "nodes":[
+		{ "text":"CAR",					"path":"/car", 				"icon":"fas fa-car", 					"visible":true, "nodes":[]},
+		{ "text":"VAN",					"path":"/van", 				"icon":"fas fa-shuttle-van", 			"visible":true, "nodes":[]},
+		{ "text":"SUV_PICKUP",			"path":"/suv-pickup", 		"icon":"fas fa-truck-pickup", 			"visible":true, "nodes":[]},
+		{ "text":"MOTORCYCLE",			"path":"/motorcycle", 		"icon":"fas fa-motorcycle", 			"visible":true, "nodes":[]},
+		{ "text":"MARINE",				"path":"/marine", 			"icon":"fas fa-anchor", 				"visible":true, "nodes":[]},
+		{ "text":"AIRCRAFT",			"path":"/aircraft", 		"icon":"fas fa-plane", 					"visible":true, "nodes":[]}
+	]},
+	{ "text":"MARKET",				"path":"/market", 			"icon":"fas fa-shopping-cart", 			"visible":true, "nodes":[]},
+	{ "text":"SERVICES",			"path":"/services", 		"icon":"fas fa-chalkboard-teacher", 	"visible":true, "nodes":[]},
+	{ "text":"PORTAL",				"path":"/portal", 			"icon":"fab fa-empire", 				"visible":true, "nodes":[]}
+]

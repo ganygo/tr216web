@@ -1,0 +1,79 @@
+<%
+    title='Profilim';
+    hideLeftTopLogo=false;
+%>
+<% layout('../_common/layout-general') %>
+
+<div class="row justify-content-md-center mt-2">
+    <div class="col-md-12 module-title text-center">
+        <i class="fas fa-user"></i> <%=title%>
+    </div>
+</div>
+<form action="" id="aform" role="form"  method="post">
+    
+    <div class="row justify-content-md-center">
+        <% if ( typeof message!='undefined' ) { %>
+        <div class="col-md-4">
+            <div class="flash"><%= message %></div>
+        </div>
+        <% } %>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="">Kullanici adi:</label>
+                <label for="" class="text-bold"><b><%=username%></b></label>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="">Isim:</label>
+                <label for=""><b><%=form.name%></b></label>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="">Soyad:</label>
+                <label for=""><b><%=form.lastName%></b></label>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="">Cinsiyet:</label>
+                <label for=""><b>
+                    <% switch(form.gender){
+                        case 'male': %>Erkek<% break;
+                        case 'female':%>Kadin<% break; 
+                        case 'lgbt':%>Lgbt<% break; 
+                        default :%><% break; 
+                    } %></b>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="row justify-content-md-center mt-2">
+        <div class="col-md-4">
+            <a href="/me/my-profile?sid=<%=sid%>" class="btn btn-primary btn-block" title="Parola Degistir"><i class="fa fa-user"></i> Profilimi Degistir</a>
+        </div>
+    </div>
+
+    <div class="row justify-content-md-center mt-2">
+        <div class="col-md-4">
+            <a href="/me/change-password?sid=<%=sid%>" class="btn btn-primary btn-block" title="Parola Degistir"><i class="fa fa-lock"></i> Parola Degistir</a>
+        </div>
+    </div>
+
+    <div class="row justify-content-md-center mt-4">
+        <div class="col-md-4">
+            <a href="/" class="btn btn-dark btn-block" title="Parola Degistir"><i class="fas fa-sign-out-alt"></i> Guvenli Cikis</a>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,83 @@
+<% 
+    title='Kayıt';
+    hideLeftTopLogo=false;
+%>
+<%layout('../../_common/layout-general')%>
+<form action="" id="aform" role="form"  method="post">
+    <div class="row justify-content-md-center mt-2">
+        <div class="col-md-12 module-title text-center">
+            <i class="fas fa-user-lock"></i> <%=title%>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <% if ( typeof message!='undefined' ) { %>
+        <div class="col-md-4">
+            <div class="flash"><%= message %></div>
+        </div>
+        <% } %>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="">Kullanici adi:</label>
+                <input class="form-control" placeholder="E-mail veya telefon" name="username" type="text" autocomplete="off" value="<%=form.username%>"  required="true">
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="">Parola:</label>
+                <input class="form-control" placeholder="Parola" name="password" type="password" autocomplete="off" value="<%=form.password%>" required="true">
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="">Tekrar Parola:</label>
+                <input class="form-control" placeholder="Parola" name="repassword" type="password" autocomplete="off" value="<%=form.repassword%>" required="true">
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="">Isim:</label>
+                <input class="form-control" placeholder="Isim" name="name" type="text" autocomplete="off" value="<%=form.name%>"  required="true">
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="">Soyad:</label>
+                <input class="form-control" placeholder="Soyad" name="lastName" type="text" autocomplete="off" value="<%=form.lastName%>"  required="true">
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="">Cinsiyet:</label>
+                <select name="gender" id="input" class="form-control" required="true">
+                    <option value="" <% if(form.gender==''){%> selected <%}%>>--Seciniz --</option>
+                    <option value="female" <% if(form.gender=='female'){%> selected <%}%>>Kadin</option>
+                    <option value="male" <% if(form.gender=='male'){%> selected <%}%>>Erkek</option>
+                    <option value="lgbt" <% if(form.gender=='lgbt'){%> selected <%}%>>LGBT</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-3" style="max-width: 60%;">
+            <button type="submit" class="btn btn-primary btn-block">Kayıt</button>
+        </div>
+        <div class="col-md-1" style="max-width: 40%;">
+            <a href="/login" class="btn btn-dark btn-block" title="Vazgeç"><i class="fa fa-reply"></i></a>
+        </div>
+    </div>
+         
+
+</form>

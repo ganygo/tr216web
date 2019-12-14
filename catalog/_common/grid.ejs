@@ -1,0 +1,418 @@
+<%
+    if(typeof dataSourceUrl=='undefined') dataSourceUrl='';
+    if(typeof showSearch=='undefined') showSearch=false;
+
+    if(typeof addNewButton=='undefined') addNewButton=false;
+    if(typeof editButton=='undefined') editButton=false;
+    if(typeof deleteButton=='undefined') deleteButton=false;
+    if(typeof viewButton=='undefined') viewButton=false;
+    if(typeof selection=='undefined') selection=false;
+    
+    
+    var ctrlCol=0;
+    if(editButton) ctrlCol++;
+    if(deleteButton) ctrlCol++;
+    if(viewButton) ctrlCol++;
+    if(typeof customButtons!='undefined') {
+        console.log('customButtons:',customButtons);
+        for(var i=0;i<customButtons.length;i++){
+            if(ctrlCol<5){
+                ctrlCol++; 
+            }
+            if(typeof customButtons[i].icon=='undefined') customButtons[i].icon='';
+            if(typeof customButtons[i].text=='undefined') customButtons[i].text='';
+            if(typeof customButtons[i].title=='undefined') customButtons[i].title='';
+            if(customButtons[i].icon!=''){
+                customButtons[i].icon=' fa fa-' + customButtons[i].icon;
+                customButtons[i].title=customButtons[i].text;
+                customButtons[i].text='';
+            }
+        }
+    }
+    if(addNewButton){
+        if(typeof pageHeaderButtons=='undefined'){
+            pageHeaderButtons={visible:true, addNew:true}
+        }else{
+            pageHeaderButtons['visible']=true;
+            pageHeaderButtons['addNew']=true;
+        }
+        
+        if(typeof backUrl!='undefined'){
+            pageHeaderButtons['back']=true;
+            pageHeaderButtons['backUrl']=backUrl;
+        }
+    }
+    fields.forEach((field)=>{
+        if(typeof field.valueField=='undefined'){
+            field['valueField']='value';
+        }
+        if(typeof field.textField=='undefined'){
+            field['textField']='text';
+        }
+        if(typeof field.icon=='undefined'){
+            field['icon']='';
+        }
+        if(typeof field.path=='undefined'){
+            field['path']='';
+        }
+        if(typeof field.buttonTarget=='undefined'){
+            field['buttonTarget']='_self';
+        }
+    });
+
+%>
+
+<div class="table-responsive">
+    <table id="grid1" class="table table-bordered table-striped display nowrap"  cellspacing="0">
+    </table>
+</div>
+<style type="text/css">
+    <% if(showSearch==false){ %>
+    .dataTables_filter {
+        display: none; 
+    }
+    <% } %>
+</style>
+<script type="text/javascript">
+  // $(document).ajaxStop(function () {
+    $(document).ready(function(){
+        var gridDataSourceUrl='<%- decodeURIComponent(dataSourceUrl) %>'; 
+        var draw=0;
+
+        var gridOptions={
+
+            serverSide: true,
+            orderCellsTop: true,
+            fixedHeader: false,
+            pageLenght:10,
+            autoWidth: true,
+            scrollCollapse: true,
+            searching: true,
+            <% if(selection) { %>
+            columnDefs: [ {
+                orderable: false,
+                data: '_id',
+                className: 'select-checkbox',
+                targets: 0
+            } ],
+            select: {
+                style:    'multi',
+                selector: 'td:first-child'
+            },
+            <% } %>
+            stateSave: false,
+            stateSaveParams: function (settings, data) {
+                //delete data.search;
+                for(var i=0;i<data.columns.length;i++){
+                    delete data.columns[i].search; //.search='';
+                }
+                console.log('stateSaveParams.data:',data);
+            },
+            columns: [
+            <% if(selection) { %>
+                {  data:'_id', 
+                    name:'_id',
+                    render: function ( data, type, row, meta ) {
+                      return null;
+                    },
+                    orderable: false,
+                    
+                    title: '<b style="cursor: pointer;">Seç</b>'
+
+                 },
+             <% } %>
+            <% fields.forEach(function(field,index){%> 
+                { title: '<%=field.text%>', data:'<%=field.name%>', fieldType:'<%=field.type%>'<% if(typeof field.lookupList!='undefined'){%>, lookupList:<%- JSON.stringify(field.lookupList)%><%}%><% if(typeof field.width!='undefined'){%>, width:'<%=field.width%>'<%}%>
+                <% if(typeof field.textField!='undefined'){%>, textField:'<%=field.textField%>'<%}else{%>,textField:'text'<%}%><% if(typeof field.valueField!='undefined'){%>, valueField:'<%=field.valueField%>'<%}else{%>,valueField:'value'<%}%>
+                <% if(typeof field.className!='undefined'){%>, className:'<%=field.className%>'<%}%> 
+                <% if(typeof field.format!='undefined'){%>, render: formatCol('<%=field.format%>') <%}%>
+                <% if(typeof field.filterField!='undefined'){%>, filterField: '<%=field.filterField%>'<%}%>
+                <% if(typeof field.orderable!='undefined'){%>, orderable: '<%=field.orderable%>'<%}else{%>, orderable:false <%}%>
+                <% if(typeof field.filter!='undefined'){%>, filter: <%=field.filter%> <%}else{%>, filter:false <%}%>},
+            <%});%>
+                <% if(editButton || deleteButton || viewButton) { %>
+                    {  data:'_id', 
+                            <% if(addNewButton){ %>
+                        title: '<div class="text-center"><a href="javascript:addNewUrl(\'<% if(typeof addNewUrl!='undefined'){%><%=addNewUrl%><%}else{%><%=urlPath%>/addnew?db=<%=db%>&sid=<%=sid%><%}%>\');" class="btn btn-primary fas fa-plus-square" title="Yeni ekle"></a></div>',
+                            <% }else { %>
+                        title: '<b style="cursor: pointer;">#</b>',
+                            <% } %>
+                        orderable: false,
+                        className:'grid-control-buttons',
+                        render: function ( data, type, row, meta ) {
+                            var html='';
+                            //customButtons:[{path:'/local-connectors/code/{_id}',text:'Kodlama',icon:'code'}],
+                            <% if(typeof customButtons!='undefined'){%>
+                                <% for(var i=0;i<customButtons.length;i++){%>
+                                    html +='<a href="javascript:openUrl(\'<%=customButtons[i].path%>\',\'' + data + '\');" class="btn btn-sm btn-info' + (html!=''?' ml-1':'') + '" title="<% if(typeof customButtons[i].text!='undefined'){%><%=customButtons[i].text%><%}%>"><% if(typeof customButtons[i].icon!='undefined'){%><i class="<%=customButtons[i].icon%>"></i><%}%></a>';
+                                <% } %>
+                            <% } %>
+                            <% if(viewButton){ %>
+                                html +='<a href="javascript:openUrl(\'<% if(typeof viewUrl!='undefined'){%><%=editUrl%><%}else{%><%=urlPath%>/view/{_id}?db=<%=db%>&sid=<%=sid%><%}%>\',\'' + data + '\');" class="btn btn-sm btn-info fas fa-eye' + (html!=''?' ml-1':'') + '" title="İncele"></a>';
+                            <% } %>
+                            <% if(editButton){ %>
+                                html +='<a href="javascript:openUrl(\'<% if(typeof editUrl!='undefined'){%><%=editUrl%><%}else{%><%=urlPath%>/edit/{_id}?db=<%=db%>&sid=<%=sid%><%}%>\',\'' + data + '\');" class="btn btn-sm btn-primary fas fa-edit' + (html!=''?' ml-1':'') + '"  title="Düzenle"></a>';
+                            <% } %>
+                            <% if(deleteButton){ %>
+                                html +='<a href="javascript:deleteItem(\'<% if(typeof deleteUrl!='undefined'){%><%=deleteUrl%><%}%>\',\'' + data + '\');" class="btn btn-sm btn-danger fas fa-trash-alt' + (html!=''?' ml-1':'') + '" title="Sil"></a>';
+                            <% } %>
+                            return html;
+                        }
+                     },
+
+                <% } %>
+            ],
+            language:{
+                url:'/dist2/datatables/turkish.json'
+            },
+            // dom: 'litfrpB',
+            dom:'ifrt<"row"<"col-md-3"B><"col-md-3"l><"col-md-6"p>>',
+            // buttons: [
+            //     'copy', 'csv', 'excel', 'pdf', 'print'
+            // ],
+            buttons: [
+                {
+                    extend: 'copy',
+                    title: '<%=title%>'
+                },
+                {
+                    extend: 'excelHtml5',
+                    title: '<%=title%>'
+                },
+                {
+                    extend: 'csvHtml5',
+                    title: '<%=title%>'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: '<%=title%>'
+                },
+                {
+                    extend: 'print',
+                    title: '<%=title%>'
+                }
+            ],
+            ajax:{
+                url:gridDataSourceUrl,
+                data:function(params){
+                    var filter={
+                        page:Math.trunc(params.start/params.length)+1,
+                        pageSize:params.length,
+                        search:params.search.value
+                    }
+                    draw=params.draw;
+                    for(var i=0;i<params.columns.length;i++){
+                        if(params.columns[i].search.value!=''){
+                            if(gridOptions.columns[i].filterField!=undefined){
+                                filter[gridOptions.columns[i].filterField] =params.columns[i].search.value;
+                            }else{
+                                filter[params.columns[i].data] =params.columns[i].search.value;
+                            }
+                        }
+                        
+                    }
+                    for(var i=0;i<params.order.length;i++){
+                        filter['order' + i] =params.order[i].dir + '_' + params.columns[params.order[i].column].data;
+                    }
+                    console.log('params:',params);
+                    console.log('filter:',filter);
+                    params=filter;
+                    return params;
+                },
+                dataFilter: function(result){
+                    createGridFilter();
+                    // console.log(result);
+                    try{
+                        result=JSON.parse(result);
+                    }catch(e){
+                        console.log('error:',e);
+                    }
+                    if(result.success){
+                        var dizi=[];
+                        
+                        if(result.data.docs!=undefined){
+                            dizi=result.data.docs
+                        }else{
+                            if(Array.isArray(result.data)){
+                                dizi=result.data;
+                            }
+                        }
+                        
+                        var jgridData= { draw: draw,recordsTotal: (result.data.recordCount || 0),recordsFiltered: (result.data.recordCount || 0),data:dizi}
+                        return JSON.stringify(jgridData);
+                    }else{
+                        return JSON.stringify({draw: draw,recordsTotal: 0,recordsFiltered: 0,data:[]});
+                    }
+                }
+            }
+                
+        }
+
+        var grid1= $('#grid1').DataTable(gridOptions);
+       
+
+        grid1.on("click", "th.select-checkbox", function() {
+            if ($("th.select-checkbox").hasClass("selected")) {
+                grid1.rows().deselect();
+                $("th.select-checkbox").removeClass("selected");
+            } else {
+                grid1.rows().select();
+                $("th.select-checkbox").addClass("selected");
+            }
+        }).on("select deselect", function() {
+            ("Some selection or deselection going on")
+            if (grid1.rows({
+                    selected: true
+                }).count() !== grid1.rows().count()) {
+                $("th.select-checkbox").removeClass("selected");
+            } else {
+                $("th.select-checkbox").addClass("selected");
+            }
+        });
+
+        function createGridFilter(){
+            if(draw!=1) return;
+            var bFound=false;
+            for(var i=0;i<gridOptions.columns.length;i++){
+                if(gridOptions.columns[i].filter==true){
+                    bFound=true;
+                    break;
+                }
+            }
+            
+            if(bFound==false) return;
+            
+            $('#grid1 thead tr').clone(false).prependTo( '#grid1 thead' );
+
+            
+            $('#grid1 thead tr:eq(0) th').each( function (i) {
+                var title = $(this).text();
+                $(this).removeClass('select-checkbox');
+                $(this).removeClass('sorting');
+                $(this).addClass('sorting_disabled');
+                if(gridOptions.columns[i].data=='_id'){
+                    $(this).html('#');
+                }else{
+                    if(gridOptions.columns[i].filter){
+                        if(gridOptions.columns[i].fieldType=='lookup'){
+                            var html='<select class="form-control" style="width:120px">';
+
+                            gridOptions.columns[i].lookupList.forEach((e)=>{
+                                html +='<option value="' + e[gridOptions.columns[i].valueField] + '">' + e[gridOptions.columns[i].textField] +'</option>'
+                            });
+
+                            html +='</select>'
+                            $(this).html( html );
+                        }else{
+                            $(this).html( '<input type="text" class="form-control" placeholder="' + title + '" />' );
+                        }
+                    }else{
+                        $(this).html('');
+                    }
+                }
+                
+         
+                $( 'input', this ).on( 'keyup change', function () {
+                    console.log('grid1.column(i).search():', grid1.column(i).search());
+                    console.log('this.value:', this.value);
+                    if ( grid1.column(i).search() !== this.value ) {
+                        grid1
+                            .column(i)
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+                 $( 'select', this ).on( 'change', function () {
+                    console.log('grid1.column(i).search():', grid1.column(i).search());
+                    console.log('this.value:', this.value);
+                    if ( grid1.column(i).search() !== this.value ) {
+                        grid1
+                            .column(i)
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } ); 
+            
+        }
+        
+        function formatCol(format){
+            var decimalPointer=whatDecimalPointer();
+            var thousandPointer=',';
+            if(decimalPointer==','){
+                thousandPointer='.';
+            }else if(decimalPointer=='.'){
+                thousandPointer=',';
+            }else{
+                thousandPointer='\'';
+            }
+            switch(format){
+                case 'n2':
+                return $.fn.dataTable.render.number(thousandPointer, decimalPointer, 2, '','');
+                case 'n1':
+                return $.fn.dataTable.render.number(thousandPointer, decimalPointer, 1, '','');
+                case 'n0':
+                return $.fn.dataTable.render.number(thousandPointer, decimalPointer, 0, '','');
+                case 'TL':
+                case 'TL2':
+                return $.fn.dataTable.render.number(thousandPointer, decimalPointer, 2, '',' TL');
+                case 'EUR':
+                case 'EUR2':
+                return $.fn.dataTable.render.number(thousandPointer, decimalPointer, 2, '',' EUR');
+                case 'USD':
+                case 'USD2':
+                return $.fn.dataTable.render.number(thousandPointer, decimalPointer, 2, '',' USD');
+                default:
+                alert(format + ' kolon formati bulunamadi!');
+                return $.fn.dataTable.render.number(thousandPointer, decimalPointer, 0, '','');
+            }
+            
+        }
+
+        function whatDecimalPointer() {
+            var n = 1.1;
+            n = n.toLocaleString().substring(1, 2);
+            return n;
+        }
+    });
+    
+   
+
+    function addNewUrl(url){
+        localStorage.setItem('returnUrl',window.location.href);
+        //url=url.replaceAll('{_id}',_id);
+        window.location.href=url;
+    }
+
+        
+    function openUrl(url,_id){
+        localStorage.setItem('returnUrl',window.location.href);
+        url=url.replaceAll('{_id}',_id);
+        window.location.href=url;
+    }
+
+    function deleteItem(url,_id){
+        
+        if(url==''){
+            alert('deleteItem deleteUrl gerekli');
+            return;
+        }
+        if(!confirm("Kayit silinecektir! Onayliyor musunuz?")) return;
+
+        url=url.replaceAll('{_id}',_id);
+        $.ajax({
+            url:url,
+            type:'DELETE',
+            success:function(result){
+                if(result.success){
+                    window.location.reload();
+                }else{
+                    alert('Hata:' + result.error.message);
+                }
+            }
+        });
+        // localStorage.setItem('returnUrl',window.location.href);
+        // window.location.href=url;
+    }
+   
+</script>

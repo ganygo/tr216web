@@ -1,0 +1,107 @@
+<%
+    title='Portal tr216';
+%>
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>TR216 - <%=title%></title>
+
+    <link href="/css/fontawesome.v5.8.2.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    
+    
+    
+    <link href="/css/theme.css" rel="stylesheet">
+
+    <script type="text/javascript" src="/js/jquery.v3.4.1.min.js"></script>
+    
+    
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap-datepicker3.min.css" />
+    <link type="text/css" rel="stylesheet" href="/css/jquery-ui.min.css" />
+    <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
+
+    <!-- <link href="/datatables/datatables.min.css" rel="stylesheet"> -->
+
+    <link href="/css/tr216.css" rel="stylesheet">
+</head>
+<body class="grid-back">
+    <div class="grid-lines">
+        <div class="row my-3 mx-2">
+            <div class="col-6">
+                <a href="/?sid=<%=sid%>"> <img src="/images/tr216-logo2.png" style="max-height: 70px;"></a>
+            </div>
+            <div class="col-6 text-right pt-3 mt-1">
+                <a href="//portal.tr216.com" target="_self" class="login-button mr-3"><i class="fas fa-user-edit"></i> Üye ol</a>
+                <a href="//portal.tr216.com" target="_self" class="login-button ml-3"><i class="fab fa-empire"></i> portal giriş</a> 
+                
+            </div>
+        </div>
+        <div class="container">
+            <div class="row justify-content-md-center mt-2">
+                <div class="col-md-12 module-title text-center">
+                    <i class="fab fa-empire"></i> <%=title%>
+                </div>
+            </div>
+
+            <div class="row justify-content-md-center my-4">
+                <div class="col-md-4 text-center" style="color:white;">
+                    <h3>İşletmenizde değer katar</h3>
+                    <p>Cep telefonunuzdan veya bilgisayardan erişerek satışlarınızı ve işletme yönetiminizi hızlı yapmanızı sağlar</p>
+                </div>
+                <div class="col-md-8 text-center">
+                    <img src="/images/portal-banner1.png" style="width: 100%;">
+                </div>
+            </div>
+            <hr>
+            <div class="row justify-content-md-center my-4">
+                <div class="col-md-4 text-center" style="color:white;">
+                    <h3>İşletmenizi büyütmeniz için neler mümkün?</h3>
+                    <p>Büyük bir işletme olmak için sermayeye, yüksek zekaya, hiç olmamış bir iş fikrine ihtiyacınız yok.</p>
+                    <p><b>İşini takip eden herkes önünde sonunda başarıya ulaşır.</b></p>
+                </div>
+                <div class="col-md-8 text-center">
+                    <img src="/images/portal-banner2.png" style="width: 100%;">
+                </div>
+            </div>
+            <!-- <a class="copyright" href=""><span>shamanCoders()</span></a> -->
+        </div>
+    </div>
+
+
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cikmak istiyor musunuz?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Vazgec</button>
+                    <a class="btn btn-primary" href="/logout?sid=<%=sid%>">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/js/bootstrap.bundle.v4.3.1.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.easing.v1.4.1.min.js"></script>
+
+
+    <script type="text/javascript" src="/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap-datepicker-locales/bootstrap-datepicker.tr.min.js"></script>
+    <script type="text/javascript" src="/datatables/datatables.min.js"></script>
+    <!-- <script type="text/javascript" src="/js/tr216-admin-theme.js"></script> -->
+</body>
+</html>

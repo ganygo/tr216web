@@ -1,0 +1,59 @@
+<% 
+    title='Giriş';
+    hideLeftTopLogo=false;
+%>
+<%layout('../_common/layout-general')%>
+<form id="aform" role="form" action="" method="POST">
+    <div class="row justify-content-md-center mt-2">
+        <div class="col-md-12 module-title text-center">
+            <i class="fas fa-user-lock"></i> <%=title%>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <% if ( typeof message!='undefined' ) { %>
+        <div class="col-md-4">
+            <div class="flash"><%= message %></div>
+        </div>
+        <% } %>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input class="form-control" placeholder="Kullanıcı adı" name="username" type="" value="<%=form.username%>">
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input class="form-control" placeholder="Parola" name="password" type="password" value="<%=form.password%>">
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-md-center my-4">
+        <div class="checkbox col-md-2" style="max-width: 50%;">
+            <label class="text-white">
+                <input name="remember" type="checkbox" value="Remember Me">Beni hatırla
+            </label>
+        </div>
+        <div class="col-md-2 text-right" style="max-width: 50%;">
+            <label>
+                <a href="/login/forgot-password"  style="text-decoration: none;color:whitesmoke;">Parolamı unuttum</a>
+            </label>
+        </div>
+    </div>
+    <div class="row justify-content-md-center my-2">
+        <div class="col-md-3" style="max-width: 60%;">
+            <button type="submit" class="btn btn-lg btn-primary btn-block">Giriş</button>
+        </div>
+        <div class="col-md-1" style="max-width: 40%;">
+            <a href="/" class="btn btn-lg btn-dark btn-block" title="Vazgeç"><i class="fa fa-reply"></i></a>
+        </div>
+    </div>
+    <div class="row justify-content-md-center mt-4">
+        <div class="col-md-4">
+            <a href="/login/signup"  class="btn btn-secondary btn-block">Yeni Kayıt</a>
+        </div>
+    </div>
+</form>
+                  

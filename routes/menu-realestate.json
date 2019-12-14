@@ -1,0 +1,42 @@
+[
+	{"text":"tr216.com",				"path":"/",		"icon":"home", "visible":true, "nodes":[]},
+	{"text":"Konut",					"path":"",		"icon":"table", "visible":true, 
+		"nodes":[
+			{"text":"Kiralık",					"path":"/realestate/house-for-rent",			"icon":"table", "visible":true, "nodes":[]},
+			{"text":"Satılık",					"path":"/realestate/house-for-sale",			"icon":"table", "visible":true, "nodes":[]},
+			{"text":"Günlük Kiralık",			"path":"/realestate/house-for-rent",			"icon":"table", "visible":true, "nodes":[]},
+			{"text":"Devren Satılık Konut",		"path":"/realestate/house-for-credit-sale",		"icon":"table", "visible":true, "nodes":[]}
+		]
+	},
+	{"text":"İş Yeri",					"path":"",		"icon":"table", "visible":true, 
+		"nodes":[
+			{"text":"Kiralık",					"path":"/einvoice-new",		"icon":"table", "visible":true, "nodes":[]},
+			{"text":"Satılık",					"path":"/einvoice-new",		"icon":"table", "visible":true, "nodes":[]},
+			{"text":"Devren Kiralık",					"path":"/einvoice-new",		"icon":"table", "visible":true, "nodes":[]},
+			{"text":"Devren Satılık",					"path":"/einvoice-new",		"icon":"table", "visible":true, "nodes":[]}
+		]
+	},
+	{"text":"Arsa",					"path":"",		"icon":"table", "visible":true, 
+		"nodes":[
+			{"text":"Satılık",					"path":"/einvoice-new",		"icon":"table", "visible":true, "nodes":[]},
+			{"text":"Kiralık",					"path":"/einvoice-new",		"icon":"table", "visible":true, "nodes":[]}
+		]
+	},
+	{"text":"Bina",					"path":"",		"icon":"table", "visible":true, 
+		"nodes":[
+			{"text":"Satılık",					"path":"/einvoice-new",		"icon":"table", "visible":true, "nodes":[]},
+			{"text":"Kiralık",					"path":"/einvoice-new",		"icon":"table", "visible":true, "nodes":[]}
+		]
+	},
+	{"text":"Devremülk",					"path":"",		"icon":"table", "visible":true, 
+		"nodes":[
+			{"text":"Akdeniz",					"path":"/einvoice-new",		"icon":"table", "visible":true, "nodes":[]},
+			{"text":"Ege",					"path":"/einvoice-new",		"icon":"table", "visible":true, "nodes":[]},
+			{"text":"Marmara",					"path":"/einvoice-new",		"icon":"table", "visible":true, "nodes":[]},
+			{"text":"İç Anadolu",					"path":"/einvoice-new",		"icon":"table", "visible":true, "nodes":[]},
+			{"text":"Karadeniz",					"path":"/einvoice-new",		"icon":"table", "visible":true, "nodes":[]},
+			{"text":"Kıbrıs",					"path":"/einvoice-new",		"icon":"table", "visible":true, "nodes":[]},
+			{"text":"Yurtdışı",					"path":"/einvoice-new",		"icon":"table", "visible":true, "nodes":[]}
+		]
+	}
+]
