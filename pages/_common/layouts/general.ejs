@@ -1,0 +1,35 @@
+<%
+    if(typeof metaDescription=='undefined') metaDescription='tr216, yaşam, alışveriş ve ticaret portalı';
+    if(typeof metaAuthor=='undefined') metaAuthor='tr216';
+
+%>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="<%- metaDescription %>">
+    <meta name="author" content="<%- metaAuthor %>">
+
+    <title><%- title%> - tr216.com</title>
+    <link rel="icon" href="<%- assetVersion('/img/webicon.png') %>" type="image/png">
+
+    <!-- Bootstrap core CSS -->
+    <link href="<%- assetVersion('/vendor/bootstrap/css/bootstrap.min.css') %>" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="<%- assetVersion('/vendor/fontawesome/css/all.min.css') %>" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+    
+    <link href="<%- assetVersion('/css/custom.css') %>" rel="stylesheet">
+    <script src="<%- assetVersion('/js/func.js') %>"></script>
+</head>
+
+<body>
+    <%- body %>
+    <script src="<%- assetVersion('/vendor/jquery/jquery.min.js') %>"></script>
+    <script src="<%- assetVersion('/vendor/bootstrap/js/bootstrap.bundle.min.js') %>"></script>
+</body>
+</html>

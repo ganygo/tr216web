@@ -1,0 +1,26 @@
+[
+	{ "text":"İş, Eleman",	"path":"/hr", 				"icon":"fas fa-people-carry", 			"visible":true, "nodes":[]},
+	{ "text":"Emlak",			"path":"/realestate", 		"icon":"fas fa-city", 					"visible":true, "nodes":[
+		{ "text":"Ev",				"path":"/house", 			"icon":"fas fa-home", 					"visible":true, "nodes":[
+			{ "text":"Daire",				"path":"/floor", 			"icon":"fas fa-home", 					"visible":true, "nodes":[]},
+			{ "text":"Villa",				"path":"/villa", 		"icon":"fas fa-store-alt", 				"visible":true, "nodes":[]},
+			{ "text":"Müstakil",			"path":"/mustakil", 			"icon":"fas fa-align-justify", 			"visible":true, "nodes":[]},
+			{ "text":"Oda",			"path":"/room", 		"icon":"fas fa-building", 				"visible":true, "nodes":[]}
+		]},
+		{ "text":"İş yeri",			"path":"/workplace", 		"icon":"fas fa-store-alt", 				"visible":true, "nodes":[]},
+		{ "text":"Arsa",				"path":"/field", 			"icon":"fas fa-align-justify", 			"visible":true, "nodes":[]},
+		{ "text":"Bina",			"path":"/building", 		"icon":"fas fa-building", 				"visible":true, "nodes":[]}
+
+	]},
+	{ "text":"Vasıta",				"path":"/vehicle", 			"icon":"fas fa-car-side", 				"visible":true, "nodes":[
+		{ "text":"Araba",					"path":"/car", 				"icon":"fas fa-car", 					"visible":true, "nodes":[]},
+		{ "text":"Van",					"path":"/van", 				"icon":"fas fa-shuttle-van", 			"visible":true, "nodes":[]},
+		{ "text":"Suv",			"path":"/suv-pickup", 		"icon":"fas fa-truck-pickup", 			"visible":true, "nodes":[]},
+		{ "text":"Motosiklet",			"path":"/motorcycle", 		"icon":"fas fa-motorcycle", 			"visible":true, "nodes":[]},
+		{ "text":"Deniz",				"path":"/marine", 			"icon":"fas fa-anchor", 				"visible":true, "nodes":[]},
+		{ "text":"Hava",			"path":"/aircraft", 		"icon":"fas fa-plane", 					"visible":true, "nodes":[]}
+	]},
+	{ "text":"Market",				"path":"/market", 			"icon":"fas fa-shopping-cart", 			"visible":true, "nodes":[]},
+	{ "text":"Hizmetler",			"path":"/services", 		"icon":"fas fa-chalkboard-teacher", 	"visible":true, "nodes":[]},
+	{ "text":"portal",				"path":"https://portal.tr216.com", 			"icon":"fab fa-empire", 				"visible":true, "nodes":[]}
+]

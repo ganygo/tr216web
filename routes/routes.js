@@ -18,137 +18,261 @@ module.exports = function(app){
  			sid:(req.query.sid || '')
  		}
  		res.render('_common/passport', data);
-		
 	});
 
  	initApi(app);
- 	initPageRoutes(app,'/','main',menu);
- 	menu.forEach((e)=>{
- 		console.log(e.text,e.path);
+ 	initPageRoutes(app,'/','main',categories);
+ 	categories.forEach((e)=>{
  		if(e.nodes==undefined) e.nodes=[];
  		initPageRoutes(app,e.path,'main',e.nodes,e);
  		e.nodes.forEach((e2)=>{
  			e2.path=e.path+e2.path;
- 			console.log('e2:',e2.text,e2.path);
  			if(e2.nodes==undefined) e2.nodes=[];
  			initPageRoutes(app,e2.path,'main',e2.nodes,e2);
  			e2.nodes.forEach((e3)=>{
  				e3.path=e2.path+e3.path;
-	 			console.log('e3:',e3.text,e3.path);
 	 			if(e3.nodes==undefined) e3.nodes=[];
 	 			initPageRoutes(app, e3.path,'main',e3.nodes,e3);
 	 		});
  		});
  	});
- 	// initPageRoutes(app,'/fil','fil',[]);
- 	// initPageRoutes(app,'/market','market',[]);
- 	// initPageRoutes(app,'/portal','portal',[]);
- 	// initPageRoutes(app,'/realestate','realestate',require('./menu-realestate.json'));
- 	// initPageRoutes(app,'/vehicle','vehicle',[]);
- 	// initPageRoutes(app,'/hr','hr',[]);
+ 	
  	initPageRoutes(app,'/me','me',[]);
  	initPageRoutes(app,'/underconstruction','underconstruction',[]);
- 	// initPageRoutes(app,'/services','services',[]);
+ 	
  	initPageRoutes(app,'/login','login',[]);
+ 	app.all('/passport', function(req, res) {
+ 		var data={
+ 			databases:[],
+ 			sid:(req.query.sid || '')
+ 		}
+		
+	});
+
+	app.all('/logout', function(req, res) {
+	   res.redirect('/');
+	});
+
+	app.all('/api/:func', function(req, res) {
+		localApi(req,res,false);
+	});
+	app.all('/api/:func/:param1', function(req, res) {
+		localApi(req,res,false);
+	});
+
+	app.all('/api/:func/:param1/:param2', function(req, res) {
+		localApi(req,res,false);
+	});
+
+	app.all('/api/:func/:param1/:param2/:param3', function(req, res) {
+		localApi(req,res,false);
+	});
+
+	app.all('/dbapi/:func', function(req, res) {
+
+		localApi(req,res,true);
+	});
+	app.all('/dbapi/:func/:param1', function(req, res) {
+		localApi(req,res,true);
+	});
+
+	app.all('/dbapi/:func/:param1/:param2', function(req, res) {
+		localApi(req,res,true);
+	});
+
+	app.all('/dbapi/:func/:param1/:param2/:param3', function(req, res) {
+		localApi(req,res,true);
+	});
+
 	
+	app.all('/:module/:page', userInfo, function(req, res) {
+		if(pages[req.params.module]==undefined){
+			errorPage(req,res,null);
+		}else if (pages[req.params.module][req.params.page] == undefined) {
+			errorPage(req,res,null);
+		} else {
+			pages[req.params.module][req.params.page].code(req, res, (err,data)=>{
+				if(!data) data={};
+				data=setGeneralParams(req,data);
+
+				if(!err){
+					res.render(pages[req.params.module][req.params.page].view['index'], data,(err,html)=>{
+						if(!err){
+							res.status(200).send(applyLanguage(req,html));
+						}else{
+							errorPage(req,res,err);
+						}
+					});
+				}else{
+					errorPage(req,res,err);
+				}
+			});
+		}
+	});
+
+	app.all('/:module/:page/:func', userInfo,  function(req, res) {
+		if(pages[req.params.module]==undefined){
+			errorPage(req,res,null);
+		}else if (pages[req.params.module][req.params.page] == undefined) {
+			errorPage(req,res,null);
+		} else {
+			pages[req.params.module][req.params.page].code(req, res, (err,data,view)=>{
+				if(!data) data={};
+				data=setGeneralParams(req,data);
+				
+				switch(req.params.func){
+					case 'addnew':
+						data['funcTitle']='Yeni Ekle';
+						break;
+					case 'edit':
+						data['funcTitle']='Düzenle';
+						break;
+					case 'view':
+						data['funcTitle']='İncele';
+						break;
+					default:
+						data['funcTitle']=req.params.func;
+						break;
+				}
+				if(!data.title) data['title']=getMenuText(req,'/' + req.params.page) + ' - ' + data['funcTitle'];
+
+
+				if(!err){
+					
+					if(view){
+						res.render(view, data);
+					}else{
+						if(pages[req.params.module][req.params.page].view[req.params.func]){
+							res.render(pages[req.params.module][req.params.page].view[req.params.func], data,(err,html)=>{
+								if(!err){
+									res.status(200).send(applyLanguage(req,html));
+								}else{
+									errorPage(req,res,err);
+								}
+							});
+						}else{
+							res.render(pages[req.params.module][req.params.page].view['index'], data,(err,html)=>{
+								if(!err){
+									res.status(200).send(applyLanguage(req,html));
+								}else{
+									errorPage(req,res,err);
+								}
+							});
+						}
+						
+					}
+					
+				}else{
+					errorPage(req,res,err);
+				}
+			});
+		}
+	});
+	
+	app.all('/:module/:page/:func/:id', userInfo, function(req, res) {
+		if(pages[req.params.module]==undefined){
+			errorPage(req,res,null);
+		}else if (pages[req.params.module][req.params.page] == undefined) {
+			errorPage(req,res,null);
+		} else {
+			pages[req.params.module][req.params.page].code(req, res, (err,data,view)=>{
+				if(!data) data={};
+				data=setGeneralParams(req,data);
+				
+				switch(req.params.func){
+					case 'addnew':
+						data['funcTitle']='Yeni Ekle';
+						break;
+					case 'edit':
+						data['funcTitle']='Düzenle';
+						break;
+					case 'view':
+						data['funcTitle']='İncele';
+						break;
+					default:
+						data['funcTitle']=req.params.func;
+						break;
+				}
+
+
+				if(!err){
+					if(view){
+						res.render(view, data);
+					}else{
+						if(pages[req.params.module][req.params.page].view[req.params.func]){
+							res.render(pages[req.params.module][req.params.page].view[req.params.func], data,(err,html)=>{
+								if(!err){
+									res.status(200).send(applyLanguage(req,html));
+								}else{
+									errorPage(req,res,err);
+								}
+							});
+						}else{
+							res.render(pages[req.params.module][req.params.page].view['index'], data,(err,html)=>{
+								if(!err){
+									res.status(200).send(applyLanguage(req,html));
+								}else{
+									errorPage(req,res,err);
+								}
+							});
+						}
+					}
+				}else{
+					errorPage(req,res,err);
+				}
+			});
+		}
+	});
 }
 
 
-function initPageRoutes(app,route,moduleName,currentMenu,parentMenu){
-	var moduleFolder = path.join(__dirname, '../catalog',moduleName);
+function applyLanguage(req,html){
+	return html.replaceAll('{{','').replaceAll('}}','');
+}
+
+function initPageRoutes(app,route,moduleName,currentCategory,parentCategory){
+	var moduleFolder = path.join(rootDir, 'pages',moduleName);
 	
 	if(!fs.existsSync(moduleFolder)) {
 		return;
 	}
 	pages[moduleName]=loadPages(moduleName,moduleFolder);
-
-	console.log(moduleName,':',pages[moduleName]);
 	
 	app.all(route, userInfo, function(req, res) {
-		
 		pages[moduleName]['index'].code(req, res, (err,data)=>{
 			if(!data) data={};
 			data['moduleName']=moduleName;
 			data=setGeneralParams(req,data);
-			data['menu']=currentMenu;
-			data['parentMenu']=parentMenu;
+			data['currentCategory']=currentCategory;
+			data['parentCategory']=parentCategory;
 			if(!err){
-				res.render(pages[moduleName]['index'].view['index'], data);
+				res.render(pages[moduleName]['index'].view['index'],data,(err,html)=>{
+					if(!err){
+						res.status(200).send(applyLanguage(req,html));
+					}else{
+						errorPage(req,res,err);
+					}
+					
+				});
+				
 			}else{
 				errorPage(req,res,err);
 			}
 		});
-		
 	});
-
-	// app.all(route + '/:page', userInfo, function(req, res) {
-		
-	// 	if (pages[moduleName][req.params.page] == undefined) {
-	// 		errorPage(req,res,{code:404,message:'Sayfa bulunamadi!'});
-	// 	} else {
-	// 		pages[moduleName][req.params.page].code(req, res, (err,data)=>{
-	// 			if(!data) data={};
-	// 			data['moduleName']=moduleName;
-	// 			data=setGeneralParams(req,data);
-	// 			data['menu']=currentMenu;
-	// 			data['parentMenu']=parentMenu;
-	// 			if(!err){
-	// 				res.render(pages[moduleName][req.params.page].view['index'], data);
-	// 			}else{
-	// 				errorPage(req,res,err);
-	// 			}
-	// 		});
-	// 	}
-	// });
-
-	// app.all(route + '/:page/:func', userInfo,  function(req, res) {
-	// 	console.log('moduleName:page/:func ',moduleName);
-	// 	console.log('route:page/:func ',route);
-	// 	if (pages[moduleName][req.params.page] == undefined) {
-	// 		errorPage(req,res,{code:404,message:'Sayfa bulunamadi!'});
-	// 	} else {
-	// 		pages[moduleName][req.params.page].code(req, res, (err,data,view)=>{
-	// 			if(!data) data={};
-	// 			data['moduleName']=moduleName;
-	// 			data=setGeneralParams(req,data);
-	// 			data['menu']=currentMenu;
-	// 			data['parentMenu']=parentMenu;
-
-	// 			if(pages[moduleName][req.params.page].view[req.params.func]){
-	// 				res.render(pages[moduleName][req.params.page].view[req.params.func], data);
-	// 			}else{
-	// 				res.render(pages[moduleName][req.params.page].view['index'], data);
-	// 			}
-	// 		});
-	// 	}
-	// });
-	
-	// app.all(route + '/:page/:func/:id', userInfo, function(req, res) {
-	// 	if (pages[moduleName][req.params.page] == undefined) {
-	// 		errorPage(req,res,{code:404,message:'Sayfa bulunamadi!'});
-	// 	} else {
-	// 		pages[moduleName][req.params.page].code(req, res, (err,data,view)=>{
-	// 			if(!data) data={};
-	// 			data=setGeneralParams(req,data);
-	// 			data['menu']=currentMenu;
-	// 			data['parentMenu']=parentMenu;
-
-	// 			if(pages[moduleName][req.params.page].view[req.params.func]){
-	// 				res.render(pages[moduleName][req.params.page].view[req.params.func], data);
-	// 			}else{
-	// 				res.render(pages[moduleName][req.params.page].view['index'], data);
-	// 			}
-	// 		});
-	// 	}
-	// });
-	
-
-	
 }
 
 function errorPage(req,res,err){
-	console.log(err);
 	res.render(path.join('error', 'error'), {err:err});
+	res.render(path.join('error', 'error'), {err:err},(yeniErr,html)=>{
+		if(!yeniErr){
+			
+			res.status(500).send(applyLanguage(req,html));
+		}else{
+			res.status(500).send('Hata:' + err.name + '\n' + err.message);
+		}
+		
+	});
 }
 
 function initApi(app){
@@ -222,6 +346,7 @@ function setGeneralParams(req,data){
 	data['name']=req.params.name || '';
 	data['lastName']=req.params.lastName || '';
 	data['gender']=req.params.gender || '';
+	data['message']='';
 	data['sid']=req.query.sid || '';
 	data['func']=req.params.func;
 	data['db']=req.query.db || '';
@@ -242,8 +367,7 @@ function setGeneralParams(req,data){
 	if(data.pageCount==undefined) data['pageCount']=1;
 	if(data.recordCount==undefined) data['recordCount']=0;
 
-	// data['icon']=getMenuIcon(req,'/' + (req.params.page || ''));
-	// data['pageTitle']=getMenuText(req,'/' + (req.params.page || ''));
+	
 	data['pagePath']='/' + req.params.page;
 				
 	data['title']=data['pageTitle'];
@@ -251,7 +375,6 @@ function setGeneralParams(req,data){
 
 	return data;
 }
-
 
 
 function loadPages(moduleName,pathName) {
@@ -285,8 +408,6 @@ function loadPages(moduleName,pathName) {
 			if(files[i]==(moduleName + '.js')){
 				var requireFileName=path.join(pathName, files[i]);
 				if(modulePages['index']==undefined) modulePages['index']={};
-				console.log('files[i]:',files[i]);
-				console.log('requireFileName:',requireFileName);
 
 				modulePages['index']['code']=require(requireFileName);
 				if(files.findIndex((x)=>{return x==moduleName +'.ejs'})>-1){

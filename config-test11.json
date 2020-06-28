@@ -1,0 +1,14 @@
+{
+  "httpserver":{
+  	"port" : 5001
+  },
+  "api": {
+    "url":"http://api-test.tr216.com/api/v1"
+  },
+  "mongodb": {
+    "address":"mongodb://localhost:27017/tr216com-test"
+  },
+  "pagination":{
+  	"pageSize":10
+  }
+}
